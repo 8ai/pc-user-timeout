@@ -1,0 +1,87 @@
+html, body, #app{
+  height: 100%;
+}
+body{
+  margin: 0;
+  font-family: sans-serif;
+}
+.icon{
+  margin: 0 2px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 400;
+  font-family: apple color emoji,segoe ui emoji,notocoloremoji,segoe ui symbol,android emoji,emojisymbols,emojione mozilla;
+}
+.icon:hover{
+  opacity: 0.7;
+}
+.left.left{
+  float: left;
+}
+.move{
+  /*-webkit-app-region: drag;*/
+}
+#app{
+  display: flex;
+  flex-direction: column;
+  /*opacity: 0.7;*/
+  -webkit-user-select: none;
+}
+.main, .fullscreen{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.fullscreen{
+  color: #edebeb;
+}
+.settings{
+  padding: 0 10px;
+}
+.content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: xx-large;
+  font-weight: 900;
+}
+.bigText{
+  font-size: 300%;
+}
+.center{
+  text-align: center;
+  padding: 0 10px;
+}
+.top{
+  text-align: right;
+  padding: 5px;
+}
+.bottom{
+  height: 60px;
+  text-align: center;
+  background: #cecece;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
+}
+.line{
+  margin-bottom: 10px;
+}
+.btn{
+  border: 0;
+  background: #a7a7a7;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 70%;
+  cursor: pointer;
+}
+.btn-blue{
+  background: #1d6dfd;
+  color: #fff;
+}
+.move{
+  -webkit-app-region: drag;
+}

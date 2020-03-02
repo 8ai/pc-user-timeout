@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Time</title>
+  <script>
+    const ipcRenderer = require('electron').ipcRenderer;
+  </script>
+  <script type="text/javascript" src="./vue.min.js"></script>
+  <script type="text/javascript" src="./time.js"></script>
+  <link rel="stylesheet" href="./time.css">
+</head>
+<body>
+  <div id="app">
+    <div class="main" v-if="type == 'main'">
+      <div class="top">
+        <a v-if="status && status.status == 'until'" href="#" class="icon left" @click="stop($event)" title="Остановить">⏹</a>
+        <a v-if="status && status.status == 'until'" href="#" class="icon left" @click="fullscreen($event)" title="Ожидание">🕒</a>
+        <a href="#" class="icon move" @click="$event.preventDefault()" @dblclick="$event.preventDefault()" title="Переместить">👋</a>
+        <a href="#" class="icon" @click="hide($event)" title="Свернуть">➖</a>
+        <a href="#" class="icon" @click="showSettings($event)" title="Настройки">⚙</a>
+      </div>
+      <div class="center" v-if="status && status.status == 'until'">
+        {{reason}}
+      </div>
+      <div class="content" v-if="status && status.status == 'until'">
+        {{status.timeUntilWait | formatTime}}
+      </div>
+      <div class="content" v-if="status && status.status == 'stop'">
+        <button type="button" @click="start($event)" class="btn btn-blue">Начать</button>
+      </div>
+    </div>
+    <div class="fullscreen" v-if="type == 'fullscreen'">
+      <div class="content">
+        <div class="center">
+          {{reason}}
+        </div>
+        <div class="bigText">
+          {{status.timeWait | formatTime}}
+        </div>
+      </div>
+      <div class="bottom">
+        <a href="#" @click="skipFullscreen($event)">Отложить</a>
+      </div>
+    </div>
+    <div class="settings" v-if="type == 'settings'">
+      <div class="line">
+        <span>Автоматически завершать отсчёт после</span>
+        <input type="time" v-model="settings.timeToStop">
+      </div>
+      <div class="line">
+        <span>Перерыв каждые(мин)</span>
+        <input type="number" v-model="settings.timeUntilWait">
+      </div>
+      <div class="line">
+        <span>Перерыв(мин)</span>
+        <input type="number" v-model="settings.timeWait">
+      </div>
+      <div class="line">
+        <span>Времени до перерыва после отложенного перерыва</span>
+        <input type="number" v-model="settings.timeUntilWaitOnSkipWait">
+      </div>
+      
+      <div>
+        <button type="button" class="authApi" @click="saveSettings($event)">Сохранить</button>
+      </div>
+      <hr>
+    </div>
+  </div>
+</body>
+</html>

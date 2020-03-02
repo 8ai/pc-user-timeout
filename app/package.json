@@ -1,0 +1,34 @@
+{
+  "name": "usr.aidev.time",
+  "version": "1.0.0",
+  "description": "time",
+  "main": "app.js",
+  "author": "8ai",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^7.1.1",
+    "electron-builder": "^21.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder",
+    "preversion": "mkdir .git || true",
+    "postversion": "npm run build"
+  },
+  "postinstall": "electron-builder install-app-deps",
+  "license": "ISC",
+  "build": {
+    "appId": "usr.aidev.time",
+    "win": {
+      "icon": "stopwatch",
+      "target": "nsis"
+    },
+    "directories": {
+      "buildResources": "../build",
+      "app": "./",
+      "output": "../release"
+    }
+  }
+}
