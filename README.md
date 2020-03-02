@@ -6,3 +6,6 @@ Go to app directory
 npm install
 npm run build
 ```
+
+### dependency
+nodejs(lts)
