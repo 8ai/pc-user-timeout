@@ -1,3 +1,6 @@
+*, ::after, ::before {
+  box-sizing: border-box; 
+}
 html, body, #app{
   height: 100%;
 }
@@ -24,8 +27,9 @@ body{
 #app{
   display: flex;
   flex-direction: column;
-  /*opacity: 0.7;*/
+  opacity: 0.7;
   -webkit-user-select: none;
+  box-shadow: inset 0px 0px 2px 0px #00000033;
 }
 .main, .fullscreen{
   display: flex;
@@ -57,6 +61,7 @@ body{
 .top{
   text-align: right;
   padding: 5px;
+  height: 35px;
 }
 .bottom{
   height: 60px;

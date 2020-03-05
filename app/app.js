@@ -57,6 +57,12 @@ ipcMain.on('set', (event, data)=>{
         status.timeWait = 0;
         status.timeUntilWait = 0;
       }
+      if(data.type == 'pause'){
+        status.status = 'pause';
+      }
+      if(data.type == 'continue'){
+        status.status = 'until';
+      }
       if(data.type == 'gowait'){
         status.status = 'wait';
         status.timeWait = (settings.timeWait || 10) * 60;

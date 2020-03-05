@@ -26,23 +26,14 @@ window.addEventListener('load', ev=>{
       status: ipcRenderer.sendSync('get', {action: 'status'}) || {}
     },
     methods:{
+      changeStatus(ev, status){
+        ipcRenderer.send('set', {action: 'status', type: status});
+      },
       hide(){
         ipcRenderer.send('set', {action: 'hide'});
       },
       showSettings(){
         ipcRenderer.send('set', {action: 'showSettings'});
-      },
-      start(){
-        ipcRenderer.send('set', {action: 'status', type: 'start'});
-      },
-      stop(){
-        ipcRenderer.send('set', {action: 'status', type: 'stop'});
-      },
-      skipFullscreen(){
-        ipcRenderer.send('set', {action: 'status', type: 'skipwait'});
-      },
-      fullscreen(){
-        ipcRenderer.send('set', {action: 'status', type: 'gowait'});
       },
       saveSettings(){
         ipcRenderer.send('set', {action: 'settings', settings: this.settings});
@@ -58,6 +49,9 @@ window.addEventListener('load', ev=>{
         }
         else if(val && val.status == 'wait'){
           this.reason = 'Устройте себе перерыв, вернитесь к работе через:';
+        }
+        else if(val && val.status == 'pause'){
+          this.reason = 'Время на паузе:';
         }
         else{
           this.reason = '';
