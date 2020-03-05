@@ -7,5 +7,11 @@ npm install
 npm run build
 ```
 
-### dependency
+## run
+```bash
+npm install
+npm run start
+```
+
+## dependency
 nodejs(lts)
