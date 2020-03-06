@@ -5,11 +5,15 @@ let util = require('util');
 let path = require('path');
 let childProcess = require('child_process');
 let tray, logs, int, allExit;
-let settings = {}, windows = {}, status = {status: 'stop', timeUntilWait: 0, timeWait: 0};
+let settings = {}, i18n = {}, windows = {}, status = {status: 'stop', timeUntilWait: 0, timeWait: 0};
 try{
   console.log('Read config', path.join(app.getPath('userData'), 'settings.json'));
    settings = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'settings.json')));
-}catch(e){}
+}catch(e){
+  console.log('Cant read settings', e);
+}
+
+updateI18n();
 
 /*
 https://www.electron.build/configuration/win
@@ -28,15 +32,15 @@ ipcMain.on('get', (event, data)=>{
     case 'settings':
       event.returnValue = settings;
       break;
+    case 'i18n':
+      event.returnValue = i18n;
+      break;
     case 'status':
       event.returnValue = status;
       break;
-    case 'devTools':
-      windows[data.type] && windows[data.type].webContents.openDevTools();
-      break;
   }
 
-  event.returnValue = settings;
+  event.returnValue = {};
 });
 ipcMain.on('set', (event, data)=>{
   //console.log('set', data);
@@ -45,6 +49,10 @@ ipcMain.on('set', (event, data)=>{
       settings = Object.assign(settings, data.settings);
       settings.gitlab_url = settings.gitlab_url && settings.gitlab_url.replace(/\/api\/v4\//, '');
       fs.writeFileSync(path.join(app.getPath('userData'), 'settings.json'), JSON.stringify(settings));
+
+      Object.keys(windows).forEach(key=>{
+        windows[key] && windows[key].send('set', {action: 'settings', settings});
+      });
       break;
     case 'status':
       if(data.type == 'start'){
@@ -87,6 +95,16 @@ ipcMain.on('set', (event, data)=>{
       break;
     case 'skipFullscreen':
       openWindow('fullscreen', false);
+      break;
+    case 'devTools':
+      windows[data.type] && windows[data.type].webContents.openDevTools();
+      break;
+    case 'updateI18n':
+      updateI18n();
+
+      Object.keys(windows).forEach(key=>{
+        windows[key] && windows[key].send('set', {action: 'i18n', i18n});
+      });
       break;
   }
 });
@@ -217,7 +235,7 @@ function openWindow(type, toOpen){
   });
 
   windows[type].loadURL(url.format({
-    pathname: path.join(__dirname, 'time.html'),
+    pathname: path.join(__dirname, 'pages/time.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -251,24 +269,26 @@ function windowParams(type){
     conf.maxWidth = conf.width;
     conf.maxHeight = conf.height;
     conf.maximazable = false;
+    conf.fullscreenable = false;
     conf.frame = false;
     conf.alwaysOnTop = true;    
     conf.skipTaskbar = true;
-    conf.fullscreenable = false;
     //conf.opacity = 0.5;
     conf.transparent = true;
     conf.backgroundColor = '#75ffffff';
   }
   if(type == 'settings'){
-    let top = height - 400;
+    /*let top = height - 400;
     if(windows.main && windows.main.status == 'show'){
       top -= 120;
-    }
-    conf.fullscreenable = false,
-    conf.x = width - 200;
-    conf.y = top;
-    conf.width = 200;
-    conf.height = 400;
+    }*/
+    conf.fullscreenable = false;
+    conf.maximazable = false;
+    /*conf.x = width - 200;
+    conf.y = top;*/
+    conf.width = 400;
+    conf.height = 410;
+    conf.center = true;
   }
   if(type == 'fullscreen'){
     conf.frame = false;
@@ -281,4 +301,17 @@ function windowParams(type){
     conf.backgroundColor = '#99333333';
   }
   return conf;
+}
+
+function updateI18n(){
+  try{
+    i18n = {};
+    fs.readdirSync(path.join(__dirname, 'langs')).filter(l=>l!='.'&&l!='..').forEach(l=>{
+      try{
+        i18n[l.replace('.json', '')] = JSON.parse(fs.readFileSync(path.join(__dirname, 'langs', l)));
+      }catch(e){}
+    });
+  }catch(e){
+    console.log('Cant read i18n', e);
+  }
 }

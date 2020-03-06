@@ -1,6 +1,6 @@
 window.addEventListener('keyup', ev=>{
   if(ev.code == 'F12'){
-    ipcRenderer.send('get', {action: 'devTools', type: app && app.type});
+    ipcRenderer.send('set', {action: 'devTools', type: app && app.type});
   }
 }, true);
 
@@ -9,52 +9,64 @@ ipcRenderer.on('set', (event, data)=>{
     case 'status':
       if(app) app.status = data.status;
       break;
+    case 'settings':
+      if(app) app.settings = data.settings;
+      break;
+    case 'i18n':
+      if(app) app.i18n = data.i18n;
+      break;
   }
 });
 
 let app;
 window.addEventListener('load', ev=>{
-  app = new Vue({
+  new Vue({
     el: '#app',
     data: {
       type: 'main',
       keys:{
         settings: false,
+        loaded: false
       },
-      reason: '',
       settings: ipcRenderer.sendSync('get', {action: 'settings'}) || {},
-      status: ipcRenderer.sendSync('get', {action: 'status'}) || {}
+      status: ipcRenderer.sendSync('get', {action: 'status'}) || {},
+      i18n: ipcRenderer.sendSync('get', {action: 'i18n'}) || {},
     },
     methods:{
       changeStatus(ev, status){
+        ev && ev.preventDefault();
         ipcRenderer.send('set', {action: 'status', type: status});
       },
-      hide(){
+      hide(ev){
+        ev && ev.preventDefault();
         ipcRenderer.send('set', {action: 'hide'});
       },
-      showSettings(){
+      showSettings(ev){
+        ev && ev.preventDefault();
         ipcRenderer.send('set', {action: 'showSettings'});
       },
-      saveSettings(){
+      saveSettings(ev){
+        ev && ev.preventDefault();
         ipcRenderer.send('set', {action: 'settings', settings: this.settings});
+      },
+      updateI18n(ev){
+        ev && ev.preventDefault();
+        ipcRenderer.send('set', {action: 'updateI18n'});
       }
     },
     mounted(){
+      app = this;
+      this.keys.loaded = true;
       this.type = process.argv[process.argv.length - 1].match(/type=(.*)/)[1];
+      document.title = this.$options.filters.i18n('Timeouts withing the hour');
     },
     watch:{
-      status(val){
-        if(val && val.status == 'until'){
-          this.reason = 'Времени до перерыва:';
-        }
-        else if(val && val.status == 'wait'){
-          this.reason = 'Устройте себе перерыв, вернитесь к работе через:';
-        }
-        else if(val && val.status == 'pause'){
-          this.reason = 'Время на паузе:';
-        }
-        else{
-          this.reason = '';
+      'settings.lang'(n,o){
+        if(!n || !o) return;
+        if(n != o){
+          this.$nextTick(()=>{
+            document.title = this.$options.filters.i18n('Timeouts withing the hour');
+          });
         }
       }
     },
@@ -70,6 +82,13 @@ window.addEventListener('load', ev=>{
         seconds = String(seconds);
         if(seconds.length < 2) seconds = '0'.repeat(2 - seconds.length) + seconds;
         return `${minutes}:${seconds}`;
+      },
+      i18n(text){
+        if(!app || !app.i18n || !app.i18n[app.settings.lang] || !app.i18n[app.settings.lang][text]){
+          return text;
+        }
+        
+        return app.i18n[app.settings.lang][text];
       }
     }
   });
