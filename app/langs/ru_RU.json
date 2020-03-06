@@ -14,9 +14,12 @@
   "Put it off for 10 minutes": "Отложить на 10 минут",
   "Automatically complete the countdown after":"Автоматически завершать отсчёт после",
   "Take a break every N minutes": "Перерыв каждые N минут",
+  "Suspend countdown until break when you lock your computer? Default: yes":"Приостанавливать отсчёт до перерыва при блокировке компьютера? По умолчанию: да",
   "Break (minutes)":"Перерыв(минут)",
   "The time for which the break is put off":"Время на которое откладывается перерыв",
   "Time before the break:":"Времени до перерыва:",
   "Take a break, get back to work through:":"Устройте себе перерыв, вернитесь к работе через:",
-  "It's pause time:":"Время на паузе:"
+  "It's pause time:":"Время на паузе:",
+  "Yes": "Да",
+  "No": "Нет"
 }

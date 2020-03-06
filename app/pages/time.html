@@ -25,7 +25,7 @@
         <a href="#" class="icon" @click="showSettings($event)" :title="'Settings'|i18n">⚙</a>
       </div>
       <div class="center" v-if="status && (status.status == 'until' || status.status == 'pause')">
-        {{reason}}
+        <span v-if="status == 'wait'">{{'Take a break, get back to work through:'|i18n}}</span>
       </div>
       <div class="content" v-if="status && status.status == 'until'">
         {{status.timeUntilWait | formatTime}}
@@ -42,7 +42,6 @@
       <div class="content">
         <div class="center">
           <span v-if="status == 'until'">{{'Time before the break:'|i18n}}</span>
-          <span v-if="status == 'wait'">{{'Take a break, get back to work through:'|i18n}}</span>
           <span v-if="status == 'pause'">{{`It's pause time:`|i18n}}</span>
         </div>
         <div class="bigText">
@@ -66,7 +65,7 @@
         <div class="line">
           <span>{{'Automatically complete the countdown after'|i18n}}</span>
           <input type="time" class="input" v-model="settings.timeToStop">
-        </div>
+        </div>        
         <div class="line">
           <span>{{'Take a break every N minutes'|i18n}}</span>
           <input type="number" class="input" v-model="settings.timeUntilWait">
@@ -78,6 +77,13 @@
         <div class="line">
           <span>{{'The time for which the break is put off'|i18n}}</span>
           <input type="number" class="input" v-model="settings.timeUntilWaitOnSkipWait">
+        </div>
+        <div class="line">
+          <span>{{'Suspend countdown until break when you lock your computer? Default: yes'|i18n}}</span>
+          <select v-model="settings.suspendCountdown" class="input">
+            <option value="yes">{{'Yes'|i18n}}</option>
+            <option value="no">{{'No'|i18n}}</option>
+          </select>
         </div>
       </div>
       

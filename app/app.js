@@ -1,4 +1,4 @@
-let {Tray, Menu, app, BrowserWindow, ipcMain, globalShortcut, Notification, screen} = require('electron');
+let {Tray, Menu, app, BrowserWindow, ipcMain, globalShortcut, Notification, screen, powerMonitor} = require('electron');
 let fs = require('fs');
 let url = require('url');
 let util = require('util');
@@ -153,6 +153,13 @@ app.on('ready', () => {
 
   openWindow('main');
   int = setInterval(startTime, 1000);
+
+  powerMonitor.on('lock-screen', () => {
+    status.lockdown = true;
+  });
+  powerMonitor.on('unlock-screen', () => {
+    status.lockdown = false;
+  });
 });
 
 function startTime(){
@@ -167,8 +174,19 @@ function startTime(){
     }
   }
 
+  let suspendCountdown = false;
+  if(settings.suspendCountdown === undefined || settings.suspendCountdown === null || settings.suspendCountdown == "yes"){
+    suspendCountdown = true;
+  }
+  if(suspendCountdown && status.lockdown == true){
+    suspendCountdown = true;
+  }
+  else {
+    suspendCountdown = false;
+  }
+
   let intStatus = status.status;
-  if(intStatus == 'until'){
+  if(intStatus == 'until' && !suspendCountdown){
     status.timeUntilWait--;
     if(status.timeUntilWait <= 0){
       status.status = 'wait';
