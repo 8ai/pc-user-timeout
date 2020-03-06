@@ -8,6 +8,7 @@ npm run build
 ```
 
 ## Run
+Go to app directory
 ```bash
 npm install
 npm run start
