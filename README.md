@@ -1,5 +1,7 @@
 # Timeouts withing the hour
 
+[Releases](https://github.com/8ai/pc-user-timeout/releases)
+
 ## Build
 Go to app directory
 ```bash
