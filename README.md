@@ -1,17 +1,20 @@
-# timeout
+# Timeouts withing the hour
 
-## build
+## Build
 Go to app directory
 ```bash
 npm install
 npm run build
 ```
 
-## run
+## Run
 ```bash
 npm install
 npm run start
 ```
 
-## dependency
-nodejs(lts)
+#### Dependency
+Node.js(lts)
+
+#### Learn about electron.js
+https://www.electronjs.org/docs
