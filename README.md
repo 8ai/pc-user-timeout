@@ -18,4 +18,4 @@ npm run start
 Node.js(lts)
 
 #### Learn about electron.js
-https://www.electronjs.org/docs
+https://www.electronjs.org/docs/tutorial/first-app
