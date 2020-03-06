@@ -83,6 +83,14 @@ ipcMain.on('set', (event, data)=>{
         status.timeUntilWait = (settings.timeUntilWaitOnSkipWait || 10) * 60;
         openWindow('fullscreen', false);
       }
+      if(data.type == 'snack'){
+        status.status = 'snack';
+        openWindow('fullscreen', true);
+      }
+      if(data.type == 'stopsnack'){
+        status.status = 'until';
+        openWindow('fullscreen', false);
+      }
       break;
     case 'hide':
       openWindow('main', false);

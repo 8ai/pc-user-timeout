@@ -84,11 +84,23 @@ window.addEventListener('load', ev=>{
         return `${minutes}:${seconds}`;
       },
       i18n(text){
-        if(!app || !app.i18n || !app.i18n[app.settings.lang] || !app.i18n[app.settings.lang][text]){
-          return text;
+        if(app && app.i18n && app.i18n[app.settings.lang] && app.i18n[app.settings.lang][text]){
+          text = app.i18n[app.settings.lang][text]
         }
         
-        return app.i18n[app.settings.lang][text];
+        return String(text).replace(/\$\((.*)\)/g, (found, varible, index, all)=>{
+          let [search, def] = varible.split('|');
+          let cur = app;
+          search.split('.').forEach(str=>{
+            if(!cur) return;
+            cur = cur[str];
+          });
+          if(!cur || cur === app){
+            cur = def;
+          }
+          if(!cur) return '';
+          return cur;
+        });
       }
     }
   });

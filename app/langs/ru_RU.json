@@ -4,14 +4,14 @@
   "Move": "Переместить",
   "Fold up": "Свертнуть",
   "Initiate": "Начать",
-  "Stop": "Остановить",
+  "Stop the countdown": "Остановить отсчёт",
   "Continue": "Продолжить",
-  "Start Break": "Начать перерыв",
+  "Start break": "Начать перерыв",
   "Settings": "Настройки",
   "Continue": "Продолжить",
-  "Pause": "Пауза",
+  "Pause the countdown": "Приостановить отсчёт",
   "Save": "Сохранить",
-  "Put it off for 10 minutes": "Отложить на 10 минут",
+  "Put it off for $(settings.timeUntilWaitOnSkipWait) minutes": "Отложить на $(settings.timeUntilWaitOnSkipWait) минут",
   "Automatically complete the countdown after":"Автоматически завершать отсчёт после",
   "Take a break every N minutes": "Перерыв каждые N минут",
   "Suspend countdown until break when you lock your computer? Default: yes":"Приостанавливать отсчёт до перерыва при блокировке компьютера? По умолчанию: да",
@@ -21,5 +21,8 @@
   "Take a break, get back to work through:":"Устройте себе перерыв, вернитесь к работе через:",
   "It's pause time:":"Время на паузе:",
   "Yes": "Да",
-  "No": "Нет"
+  "No": "Нет",
+  "Go out for a snack": "Уйти на перекус",
+  "I'm on a snack, I'll be right back.": "Я на перекусе, скоро вернусь.",
+  "Finish the snack": "Закончить перекус"
 }
