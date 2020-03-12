@@ -10,20 +10,22 @@
   <script type="text/javascript" src="./vue.min.js"></script>
   <script type="text/javascript" src="./time.js"></script>
   <link rel="stylesheet" href="./time.css">
+  <link rel="stylesheet" href="./fontawesome/fontawesome.css">
+  <link rel="stylesheet" href="./fontawesome/solid.css">
 </head>
 <body>
   <div id="app" :class="{loaded: keys.loaded}">
     <div class="main" v-if="type == 'main'">
-      <div class="top">
-        <a v-if="status && status.status == 'until'" href="#" class="icon left" @click="changeStatus($event, 'stop')" :title="'Stop the countdown'|i18n">⏹</a>
-        <a v-if="status && status.status == 'until'" href="#" class="icon left" @click="changeStatus($event, 'pause')" :title="'Pause the countdown'|i18n">
-          <svg enable-background="new 0 0 512 512" height="24" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g><circle cx="256" cy="256" fill="#ffc265" r="248.485"/><path d="m256 477.432c-132.696 0-241.09-104.015-248.115-234.959-.24 4.479-.37 8.987-.37 13.526 0 137.235 111.251 248.485 248.485 248.485s248.485-111.249 248.485-248.484c0-4.539-.13-9.047-.37-13.526-7.025 130.943-115.419 234.958-248.115 234.958z" fill="#ffb541"/><ellipse cx="256" cy="256" fill="#ffe9c8" rx="208.197" ry="208.197" transform="matrix(.707 -.707 .707 .707 -106.039 256)"/><path d="m256 437.144c-110.438 0-200.776-85.993-207.747-194.67-.287 4.473-.449 8.981-.449 13.526 0 114.984 93.213 208.197 208.197 208.197s208.196-93.213 208.196-208.197c0-4.546-.162-9.053-.449-13.526-6.972 108.677-97.31 194.67-207.748 194.67z" fill="#ffdca7"/><g><g fill="#ff4755"><path d="m221.015 354.086h-21.396c-5.534 0-10.02-4.486-10.02-10.02v-176.133c0-5.534 4.486-10.02 10.02-10.02h21.396c5.534 0 10.02 4.486 10.02 10.02v176.134c-.001 5.533-4.486 10.019-10.02 10.019z"/><path d="m312.381 354.086h-21.396c-5.534 0-10.02-4.486-10.02-10.02v-176.133c0-5.534 4.486-10.02 10.02-10.02h21.396c5.534 0 10.02 4.486 10.02 10.02v176.134c0 5.533-4.486 10.019-10.02 10.019z"/></g></g><path d="m221.015 336.051h-21.396c-5.534 0-10.02-4.486-10.02-10.02v18.035c0 5.534 4.486 10.02 10.02 10.02h21.396c5.534 0 10.02-4.486 10.02-10.02v-18.035c-.001 5.534-4.486 10.02-10.02 10.02z" fill="#fc2b3a"/><path d="m312.381 336.051h-21.396c-5.534 0-10.02-4.486-10.02-10.02v18.035c0 5.534 4.486 10.02 10.02 10.02h21.396c5.534 0 10.02-4.486 10.02-10.02v-18.035c0 5.534-4.486 10.02-10.02 10.02z" fill="#fc2b3a"/><g><path d="m189.599 289.81c-4.15 0-7.515 3.364-7.515 7.515v46.742c0 9.668 7.866 17.534 17.534 17.534h21.396c9.668 0 17.534-7.866 17.534-17.534v-176.133c0-9.668-7.866-17.534-17.534-17.534h-21.396c-9.668 0-17.534 7.866-17.534 17.534v99.333c0 4.151 3.365 7.515 7.515 7.515s7.515-3.364 7.515-7.515v-99.333c0-1.382 1.124-2.505 2.505-2.505h21.396c1.381 0 2.505 1.123 2.505 2.505v176.133c0 1.382-1.124 2.505-2.505 2.505h-21.396c-1.381 0-2.505-1.123-2.505-2.505v-46.742c0-4.151-3.365-7.515-7.515-7.515z"/><path d="m312.381 361.601c9.668 0 17.534-7.866 17.534-17.534v-176.133c0-9.668-7.866-17.534-17.534-17.534h-21.395c-9.668 0-17.534 7.866-17.534 17.534v176.133c0 9.668 7.866 17.534 17.534 17.534zm-23.901-17.535v-176.132c0-1.382 1.123-2.505 2.505-2.505h21.395c1.382 0 2.505 1.123 2.505 2.505v176.133c0 1.382-1.123 2.505-2.505 2.505h-21.395c-1.381-.001-2.505-1.124-2.505-2.506z"/><path d="m437.02 74.98c-48.353-48.352-112.639-74.98-181.02-74.98-68.38 0-132.667 26.628-181.02 74.98-48.351 48.353-74.98 112.639-74.98 181.02s26.629 132.667 74.98 181.02c48.353 48.352 112.64 74.98 181.02 74.98 55.989 0 109.165-17.746 153.782-51.318 3.316-2.496 3.981-7.207 1.486-10.523-2.497-3.316-7.204-3.982-10.523-1.486-41.99 31.597-92.042 48.298-144.745 48.298-64.366 0-124.879-25.066-170.392-70.578-45.514-45.514-70.579-106.027-70.579-170.393s25.065-124.879 70.579-170.392c45.513-45.513 106.026-70.579 170.392-70.579s124.879 25.065 170.392 70.578c45.513 45.514 70.578 106.026 70.578 170.392 0 33.383-6.696 65.697-19.9 96.047-12.757 29.321-30.969 55.473-54.129 77.728-2.993 2.876-3.088 7.633-.212 10.625s7.633 3.088 10.625.212c24.6-23.639 43.945-51.419 57.498-82.569 14.032-32.252 21.148-66.584 21.148-102.042 0-68.381-26.628-132.667-74.98-181.02z"/><path d="m114.096 103.469c-2.935-2.933-7.693-2.933-10.627 0-40.743 40.742-63.18 94.913-63.18 152.531s22.438 111.788 63.181 152.531c40.742 40.743 94.912 63.18 152.531 63.18 57.618 0 111.789-22.437 152.531-63.18 40.741-40.743 63.178-94.913 63.178-152.531s-22.437-111.789-63.179-152.531c-36.901-36.9-85.863-59.161-137.869-62.684-51.503-3.492-102.519 11.527-143.648 42.282-3.324 2.485-4.003 7.195-1.518 10.519s7.195 4.002 10.518 1.519c38.253-28.605 85.71-42.569 133.632-39.324 48.378 3.277 93.928 23.987 128.256 58.317 78.246 78.246 78.246 205.561 0 283.806-37.904 37.904-88.299 58.779-141.903 58.779s-104-20.875-141.904-58.779c-78.246-78.246-78.246-205.561 0-283.806 2.936-2.937 2.936-7.694.001-10.629z"/></g></g></svg>
-        </a>
-        <a v-if="status && status.status == 'until'" href="#"  class="icon left" @click="changeStatus($event, 'snack')" :title="'Go out for a snack'|i18n">🍕</a>
-        <a v-if="status && status.status == 'until'" href="#" class="icon left" @click="changeStatus($event, 'gowait')" :title="'Start break'|i18n">🕒</a>
-        <a href="#" class="icon move" @click="$event.preventDefault()" @dblclick="$event.preventDefault()" :title="'Move'|i18n">👋</a>
-        <a href="#" class="icon" @click="hide($event)" :title="'Fold up'|i18n">➖</a>
-        <a href="#" class="icon" @click="showSettings($event)" :title="'Settings'|i18n">⚙</a>
+      <div class="top flex">
+        <span v-if="status && status.status == 'until' && settings.design == '1'" class="left flex w100">
+          <a href="#" class="icon fas fa-stop icon-red" @click="changeStatus($event, 'stop')" :title="'Stop the countdown'|i18n"></a>
+          <a href="#" class="icon fas fa-pause icon-grey" @click="changeStatus($event, 'pause')" :title="'Pause the countdown'|i18n"></a>
+          <a href="#" class="icon fas fa-utensils icon-green" @click="changeStatus($event, 'snack')" :title="'Go out for a snack'|i18n"></a>
+          <a href="#" class="icon fas fa-couch icon-white" @click="changeStatus($event, 'gowait')" :title="'Start break'|i18n"></a>
+        </span>
+        <a href="#" class="icon move fas fa-arrows-alt icon-black" @click="$event.preventDefault()" @dblclick="$event.preventDefault()" :title="'Move'|i18n"></a>
+        <a href="#" class="icon fas fa-eye-slash icon-black" @click="hide($event)" :title="'Fold up'|i18n"></a>
+        <a href="#" class="icon fas fa-cogs icon-black" @click="showSettings($event)" :title="'Settings'|i18n"></a>
       </div>
       <div class="center" v-if="status && (status.status == 'until' || status.status == 'pause')">
         <span v-if="status.status == 'until'">{{'Time before the break:'|i18n}}</span>
@@ -38,9 +40,15 @@
       <div class="content" v-if="status && status.status == 'pause'">
         <button type="button" @click="changeStatus($event, 'continue')" class="btn btn-blue big">{{'Continue'|i18n}}</button>
       </div>
+      <div class="bottom flex flex-wide" v-if="settings.design == '2'">
+        <a href="#" class="icon fas fa-stop icon-red" @click="changeStatus($event, 'stop')" :title="'Stop the countdown'|i18n"></a>
+        <a href="#" class="icon fas fa-pause icon-grey" @click="changeStatus($event, 'pause')" :title="'Pause the countdown'|i18n"></a>
+        <a href="#" class="icon fas fa-utensils icon-green" @click="changeStatus($event, 'snack')" :title="'Go out for a snack'|i18n"></a>
+        <a href="#" class="icon fas fa-couch icon-white" @click="changeStatus($event, 'gowait')" :title="'Start break'|i18n"></a>
+      </div>
     </div>
 
-    <div class="fullscreen" v-if="type == 'fullscreen'">
+    <div class="fullscreen" v-if="type == 'fullscreen'" :class="{snack: status.status == 'snack'}">
       <div class="content">
         <div class="center">
           <span v-if="status.status == 'wait'">{{'Take a break, get back to work through:'|i18n}}</span>
@@ -59,7 +67,7 @@
     <div class="settings" v-if="type == 'settings'">
       <div class="scroll">
         <div class="line">
-          <span>{{'Interface language'|i18n}} <a href="" class="icon" @click="updateI18n($event)">↺</a></span>
+          <span>{{'Interface language'|i18n}} <a href="" class="icon fas fa-undo-alt" @click="updateI18n($event)"></a></span>
           <select v-model="settings.lang" class="input">
             <option v-if="!i18n['en_US']" value="en_US">en_US</option>
             <option v-for="(lang, i) in Object.keys(i18n)" :value="lang">{{lang}}</option>
@@ -86,6 +94,14 @@
           <select v-model="settings.suspendCountdown" class="input">
             <option value="yes">{{'Yes'|i18n}}</option>
             <option value="no">{{'No'|i18n}}</option>
+          </select>
+        </div>
+        <div class="line">
+          <span>{{'Main window design, default: 1'|i18n}} {{settings.design}}</span>
+          <select v-model="settings.design" class="input">
+            <option value="1">Design 1</option>
+            <option value="2">Design 2</option>
+            <!-- <option value="3">Design 3</option> -->
           </select>
         </div>
       </div>

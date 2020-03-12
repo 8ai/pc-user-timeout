@@ -15,6 +15,8 @@ try{
 
 updateI18n();
 
+let history = fs.createWriteStream(path.join(app.getPath('userData'), 'history.lst'));
+
 /*
 https://www.electron.build/configuration/win
 https://electronjs.org/docs/api/browser-window
@@ -51,7 +53,22 @@ ipcMain.on('set', (event, data)=>{
       fs.writeFileSync(path.join(app.getPath('userData'), 'settings.json'), JSON.stringify(settings));
 
       Object.keys(windows).forEach(key=>{
-        windows[key] && windows[key].send('set', {action: 'settings', settings});
+        if(windows[key]){
+          windows[key].send('set', {action: 'settings', settings});
+          let {width, height} = screen.getPrimaryDisplay().workAreaSize;
+          if(key == 'main'){
+            if(settings.design == '1'){
+              let {x, y} = {x: width - 230 - 70, y: height - 100};
+              let {width, height} = {width: 230, height: 100};
+              windows[key].setBounds({x, y, width, height});
+            }
+            if(settings.design == '2'){
+              let {x, y} = {x: width - 230 + 70, y: height - 130};
+              let {width, height} = {width: 230, height: 130};
+              windows[key].setBounds({x, y, width, height});
+            }
+          }
+        }
       });
       break;
     case 'status':
@@ -59,37 +76,45 @@ ipcMain.on('set', (event, data)=>{
         status.status = 'until';
         status.timeUntilWait = (settings.timeUntilWait || 50) * 60;
         status.timeWait = 0;
+        history.write(`\nStartTime:${Date.now()}\n`);
       }
       if(data.type == 'stop'){
         status.status = 'stop';
         status.timeWait = 0;
         status.timeUntilWait = 0;
+        history.write(`EndTime:${Date.now()}\n`);
       }
       if(data.type == 'pause'){
         status.status = 'pause';
+        history.write(`StartPause:${Date.now()}\n`);
       }
       if(data.type == 'continue'){
         status.status = 'until';
+        history.write(`EndPause:${Date.now()}\n`);
       }
       if(data.type == 'gowait'){
         status.status = 'wait';
         status.timeWait = (settings.timeWait || 10) * 60;
         status.timeUntilWait = 0;
         openWindow('fullscreen', true);
+        history.write(`StartWait:${Date.now()}\n`);
       }
       if(data.type == 'skipwait'){
         status.status = 'until';
         status.timeWait = 0;
         status.timeUntilWait = (settings.timeUntilWaitOnSkipWait || 10) * 60;
         openWindow('fullscreen', false);
+        history.write(`EndWait:${Date.now()}\n`);
       }
       if(data.type == 'snack'){
         status.status = 'snack';
         openWindow('fullscreen', true);
+        history.write(`StartSnack:${Date.now()}\n`);
       }
       if(data.type == 'stopsnack'){
         status.status = 'until';
         openWindow('fullscreen', false);
+        history.write(`EndSnack:${Date.now()}\n`);
       }
       break;
     case 'hide':
@@ -201,6 +226,7 @@ function startTime(){
       status.timeWait = (settings.timeWait || 10) * 60;
       status.timeUntilWait = 0;
       openWindow('fullscreen', true);
+      history.write(`StartWait:${Date.now()}\n`);
     }
   }
   if(intStatus == 'wait'){
@@ -210,6 +236,7 @@ function startTime(){
       status.timeUntilWait = (settings.timeUntilWait || 50) * 60;
       status.timeWait = 0;
       openWindow('fullscreen', false);
+      history.write(`EndWait:${Date.now()}\n`);
     }
   }
   if(intStatus == 'stop'){
@@ -288,10 +315,16 @@ function windowParams(type){
   let {width, height} = screen.getPrimaryDisplay().workAreaSize;
   
   if(type == 'main'){
-    conf.x = width - 300;
-    conf.y = height - 100;
-    conf.width = 230;
-    conf.height = 100;
+    let wwidth = 230;
+    let wheight = 100;
+    if(settings.design == '2'){
+      wwidth = 230;
+      wheight = 130;
+    }
+    conf.x = width - wwidth - 70;
+    conf.y = height - wheight;
+    conf.width = wwidth;
+    conf.height = wheight;
     conf.maxWidth = conf.width;
     conf.maxHeight = conf.height;
     conf.maximazable = false;
