@@ -40,7 +40,7 @@
       <div class="content" v-if="status && status.status == 'pause'">
         <button type="button" @click="changeStatus($event, 'continue')" class="btn btn-blue big">{{'Continue'|i18n}}</button>
       </div>
-      <div class="bottom flex flex-wide" v-if="settings.design == '2'">
+      <div class="bottom flex flex-wide" v-if="status && status.status == 'until' && settings.design == '2'">
         <a href="#" class="icon fas fa-stop icon-red" @click="changeStatus($event, 'stop')" :title="'Stop the countdown'|i18n"></a>
         <a href="#" class="icon fas fa-pause icon-grey" @click="changeStatus($event, 'pause')" :title="'Pause the countdown'|i18n"></a>
         <a href="#" class="icon fas fa-utensils icon-green" @click="changeStatus($event, 'snack')" :title="'Go out for a snack'|i18n"></a>

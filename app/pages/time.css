@@ -95,16 +95,16 @@ body{
   text-decoration: none;
   font-weight: 400;
   font-family: apple color emoji,segoe ui emoji,notocoloremoji,segoe ui symbol,android emoji,emojisymbols,emojione mozilla;
-  text-shadow: 1px 1px 1px #373535;
+  text-shadow: 1px 1px 1px #ffffff;
   font-size: 120%;
-  color: #f0f0f0;
+  color: #0f0f0f;
 }
 .icon:hover{
   opacity: 0.7;
 }
 .icon-red{
   /*color: #f00;*/
-  text-shadow: 1px 1px 1px #f00;
+  /*text-shadow: 1px 1px 1px #f00;*/
 }
 .icon-grey{
   /*color: #545454;*/
