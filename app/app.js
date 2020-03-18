@@ -144,7 +144,9 @@ ipcMain.on('set', (event, data)=>{
 
 app.on('ready', () => {
   //console.log(screen.getAllDisplays());
-  tray = new Tray(path.join(__dirname, 'stopwatch.png'));
+  const nativeImage = require('electron').nativeImage;
+  let image = nativeImage.createFromPath(path.join(__dirname, 'stopwatch.png')).resize({width:16,height:16});
+  tray = new Tray(image);
   tray.setToolTip('Time management');
   tray.on('click', (ev, bounds, position)=>{
     console.log(ev, bounds, position);
