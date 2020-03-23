@@ -1,4 +1,4 @@
-let {Tray, Menu, app, BrowserWindow, ipcMain, globalShortcut, Notification, screen, powerMonitor} = require('electron');
+let {Tray, Menu, app, BrowserWindow, ipcMain, globalShortcut, Notification, screen, powerMonitor, nativeImage} = require('electron');
 let fs = require('fs');
 let url = require('url');
 let util = require('util');
@@ -144,7 +144,6 @@ ipcMain.on('set', (event, data)=>{
 
 app.on('ready', () => {
   //console.log(screen.getAllDisplays());
-  const nativeImage = require('electron').nativeImage;
   let image = nativeImage.createFromPath(path.join(__dirname, 'stopwatch.png')).resize({width:16,height:16});
   tray = new Tray(image);
   tray.setToolTip('Time management');
